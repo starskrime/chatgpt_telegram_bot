@@ -44,14 +44,13 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     @Override
     public void onUpdateReceived(@NotNull Update update) {
         long chatId = 0;
-        long userId = 0; //это нам понадобится позже
-        String userName = null;
+        long userId = 0;
+        String userName;
         String receivedMessage;
 
         System.out.println("Received: " + update.getMessage().toString());
         System.out.println("Text: " + update.getMessage().getText());
 
-        //если получено сообщение текстом
         if(update.hasMessage()) {
             chatId = update.getMessage().getChatId();
             userId = update.getMessage().getFrom().getId();
@@ -65,7 +64,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 botAnswerUtils(receivedMessage, chatId, userName);
             }
 
-            //если нажата одна из кнопок бота
         } else if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             userId = update.getCallbackQuery().getFrom().getId();
