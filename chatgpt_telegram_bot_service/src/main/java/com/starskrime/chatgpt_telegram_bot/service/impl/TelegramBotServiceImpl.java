@@ -110,7 +110,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }
     }
 
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-    }
+//    @Override
+//    public void onUpdatesReceived(List<Update> updates) {
+//    }
 }
