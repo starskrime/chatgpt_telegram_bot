@@ -47,6 +47,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         String receivedMessage;
 
         System.out.println("Received: " + update.getMessage().toString());
+        System.out.println("Text: " + update.getMessage().getText());
 
         //если получено сообщение текстом
         if(update.hasMessage()) {
@@ -109,8 +110,4 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             log.error(e.getMessage());
         }
     }
-
-//    @Override
-//    public void onUpdatesReceived(List<Update> updates) {
-//    }
 }
