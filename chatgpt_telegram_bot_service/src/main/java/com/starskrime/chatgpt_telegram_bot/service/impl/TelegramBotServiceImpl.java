@@ -31,10 +31,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         return telegramBotConfiguration.getBotToken();
     }
 
-    @Override
-    public void onRegister() {
-
-    }
+//    @Override
+//    public void onRegister() {
+//
+//    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -57,7 +57,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }
     }
 
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-    }
+//    @Override
+//    public void onUpdatesReceived(List<Update> updates) {
+//    }
 }
