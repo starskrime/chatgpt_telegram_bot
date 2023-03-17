@@ -21,14 +21,4 @@ public class TelegramBotConfiguration {
     @Value("${telegram.bot.username}")
     private String botUserName;
 
-    @Bean
-    ObjectMapper customObjectMapper() {
-        return new ObjectMapper();
-    }
-
-    @Bean
-    TelegramBotsApi telegramBotsApi() throws TelegramApiException {
-        return new TelegramBotsApi(DefaultBotSession.class);
-    }
-
 }
