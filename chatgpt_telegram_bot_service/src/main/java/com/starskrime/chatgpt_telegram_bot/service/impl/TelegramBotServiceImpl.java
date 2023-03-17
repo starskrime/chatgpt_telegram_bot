@@ -22,7 +22,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
         this.telegramBotConfiguration = telegramBotConfiguration;
-        startBot(72055773,"bakirtalibov");
+        startBot(72055773,"bakirtalibov","HI. I just started");
     }
 
     @Override
@@ -78,7 +78,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     private void botAnswerUtils(String receivedMessage, long chatId, String userName) {
         switch (receivedMessage){
             case "/start":
-                startBot(chatId, userName);
+                startBot(chatId, userName,"");
                 break;
             case "/help":
                 sendHelpText(chatId, HELP_TEXT);
@@ -88,10 +88,15 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     }
 
 
-    private void startBot(long chatId, String userName) {
+    private void startBot(long chatId, String userName,String customMessage) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.setText("Hi, " + userName + "! I'm a Telegram bot.'");
+        if (customMessage.isEmpty()){
+            message.setText("Hi, " + userName + "! I'm a Telegram bot.'");
+        }else {
+            message.setText(customMessage);
+        }
+
         message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
 
         try {
