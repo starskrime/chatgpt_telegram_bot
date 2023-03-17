@@ -1,1 +1,1 @@
-check
+git pull
