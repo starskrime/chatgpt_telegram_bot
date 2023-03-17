@@ -14,4 +14,7 @@ public class TelegramBotConfiguration {
     @Value("${telegram.bot.username}")
     private String botUserName;
 
+    @Value("${telegram.bot.adminChatId}")
+    private Long adminChatId;
+
 }
