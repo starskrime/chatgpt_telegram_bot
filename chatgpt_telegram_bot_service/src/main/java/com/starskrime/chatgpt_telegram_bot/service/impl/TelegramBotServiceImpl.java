@@ -14,7 +14,6 @@ import java.util.List;
 @Component
 public class TelegramBotServiceImpl extends TelegramLongPollingBot implements TelegramBotService {
 
-
     private final TelegramBotConfiguration telegramBotConfiguration;
 
     public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
@@ -31,10 +30,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         return telegramBotConfiguration.getBotToken();
     }
 
-//    @Override
-//    public void onRegister() {
-//
-//    }
+    @Override
+    public void onRegister() {
+
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -57,7 +56,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }
     }
 
-//    @Override
-//    public void onUpdatesReceived(List<Update> updates) {
-//    }
+    @Override
+    public void onUpdatesReceived(List<Update> updates) {
+    }
 }
