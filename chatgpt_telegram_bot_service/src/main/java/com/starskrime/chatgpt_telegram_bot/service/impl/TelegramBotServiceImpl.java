@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -73,6 +74,17 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
             botAnswerUtils(receivedMessage, chatId, userName);
         }
+
+        //Temp code
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText("Received: " + update.getMessage().getText());
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+        //Temp code /
     }
 
     private void botAnswerUtils(String receivedMessage, long chatId, String userName) {
