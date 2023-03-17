@@ -19,15 +19,15 @@ public class ChatgptTelegramBotApplication {
     @Autowired
     TelegramBotServiceImpl bot;
 
-    @EventListener({ContextRefreshedEvent.class})
-    public void init() {
-        try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot((LongPollingBot) bot);
-        } catch (TelegramApiException e) {
-            log.error(e.getMessage());
-        }
-    }
+//    @EventListener({ContextRefreshedEvent.class})
+//    public void init() {
+//        try {
+//            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+//            telegramBotsApi.registerBot((LongPollingBot) bot);
+//        } catch (TelegramApiException e) {
+//            log.error(e.getMessage());
+//        }
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(ChatgptTelegramBotApplication.class, args);
