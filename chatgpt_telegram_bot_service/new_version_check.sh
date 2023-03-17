@@ -1,3 +1,3 @@
 git pull
-run build.sh
+./build.sh
 java -jar target/chatgpt_telegram_bot-0.0.1-SNAPSHOT.jar
