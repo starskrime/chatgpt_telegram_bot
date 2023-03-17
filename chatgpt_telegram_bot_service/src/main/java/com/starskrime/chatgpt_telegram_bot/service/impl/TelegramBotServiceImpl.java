@@ -40,7 +40,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     public void onUpdateReceived(Update update) {
 
         String command = update.getMessage().getText();
-
+        System.out.println("received" + command);
         if(command.equals("/hello")){
             String message = "Hello, dear friend!";
 
