@@ -11,7 +11,7 @@ public interface TelegramBotService {
             new BotCommand("/help", "bot info")
     );
 
-    String HELP_TEXT = "This bot will connect you with ChatGpt latest api" +
+    String HELP_TEXT = "This bot will connect you with ChatGpt latest api.\n" +
             "The following commands are available to you:\n\n" +
             "/start - start the bot\n" +
             "/help - help menu";
