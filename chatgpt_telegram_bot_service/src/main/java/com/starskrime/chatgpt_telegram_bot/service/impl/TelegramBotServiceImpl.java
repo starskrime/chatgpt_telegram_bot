@@ -55,6 +55,9 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             userId = update.getMessage().getFrom().getId();
             userName = update.getMessage().getFrom().getFirstName();
 
+
+
+
             if (update.getMessage().hasText()) {
                 receivedMessage = update.getMessage().getText();
                 botAnswerUtils(receivedMessage, chatId, userName);
