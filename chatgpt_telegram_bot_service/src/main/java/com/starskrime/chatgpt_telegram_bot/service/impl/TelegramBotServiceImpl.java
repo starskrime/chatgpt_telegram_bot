@@ -22,6 +22,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
         this.telegramBotConfiguration = telegramBotConfiguration;
+        startBot(72055773,"bakirtalibov");
     }
 
     @Override
