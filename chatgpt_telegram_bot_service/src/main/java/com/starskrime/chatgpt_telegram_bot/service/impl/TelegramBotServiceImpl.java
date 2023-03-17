@@ -93,11 +93,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         message.setChatId(chatId);
         if (customMessage.isEmpty()){
             message.setText("Hi, " + userName + "! I'm a Telegram bot.'");
+            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
         }else {
             message.setText(customMessage);
         }
 
-        message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
+
 
         try {
             execute(message);
