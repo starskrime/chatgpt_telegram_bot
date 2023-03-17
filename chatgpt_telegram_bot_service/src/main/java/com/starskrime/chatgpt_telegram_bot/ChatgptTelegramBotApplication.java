@@ -1,5 +1,6 @@
 package com.starskrime.chatgpt_telegram_bot;
 
+import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
 import com.starskrime.chatgpt_telegram_bot.service.impl.TelegramBotServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +18,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class ChatgptTelegramBotApplication {
 
     @Autowired
-    TelegramBotServiceImpl bot;
-
-//    @EventListener({ContextRefreshedEvent.class})
-//    public void init() {
-//        try {
-//            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-//            telegramBotsApi.registerBot((LongPollingBot) bot);
-//        } catch (TelegramApiException e) {
-//            log.error(e.getMessage());
-//        }
-//    }
+    TelegramBotService bot;
 
     public static void main(String[] args) {
         SpringApplication.run(ChatgptTelegramBotApplication.class, args);
