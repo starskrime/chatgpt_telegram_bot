@@ -17,4 +17,3 @@ public interface TelegramBotService {
             "/help - help menu";
 
 }
-cd /home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service && new_version_check.sh
