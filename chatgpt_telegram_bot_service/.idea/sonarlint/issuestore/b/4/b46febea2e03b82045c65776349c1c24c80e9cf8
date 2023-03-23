@@ -1,0 +1,16 @@
+
+
+java:S1128"dRemove this unused import 'com.starskrime.chatgpt_telegram_bot.service.impl.TelegramBotServiceImpl'.(ë©Ğ8•–èíî0
+q
+java:S1128	"TRemove this unused import 'org.springframework.context.event.ContextRefreshedEvent'.(ôõµÍ8•–èíî0
+n
+java:S1128
+"LRemove this unused import 'org.springframework.context.event.EventListener'.(¦ñÛĞüÿÿÿÿ8•–èíî0
+m
+java:S1128"KRemove this unused import 'org.telegram.telegrambots.meta.TelegramBotsApi'.(›äçÓøÿÿÿÿ8•–èíî0
+x
+java:S1128"[Remove this unused import 'org.telegram.telegrambots.meta.exceptions.TelegramApiException'.(ò¹ôÖ8•–èíî0
+u
+java:S1128"SRemove this unused import 'org.telegram.telegrambots.meta.generics.LongPollingBot'.(Ü´š³úÿÿÿÿ8•–èíî0
+{
+java:S1128"YRemove this unused import 'org.telegram.telegrambots.updatesreceivers.DefaultBotSession'.(ÆŸ»üÿÿÿÿ8•–èíî0

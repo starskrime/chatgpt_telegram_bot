@@ -21,7 +21,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
         this.telegramBotConfiguration = telegramBotConfiguration;
-        startBot(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","HI. I just started");
+        sendMessage(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","Hi. I just started");
     }
 
     @Override
@@ -86,17 +86,20 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     private void botAnswerUtils(String receivedMessage, long chatId, String userName) {
         switch (receivedMessage){
             case "/start":
-                startBot(chatId, userName,"");
+                sendMessage(chatId, userName,"");
                 break;
             case "/help":
                 sendHelpText(chatId, HELP_TEXT);
+                break;
+            case "/mode-list":
+                sendHelpText(chatId, "List of available messages: \n/GRAMMAR \n/AI");
                 break;
             default: break;
         }
     }
 
 
-    private void startBot(long chatId, String userName,String customMessage) {
+    private void sendMessage(long chatId, String userName, String customMessage) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         if (customMessage.isEmpty()){
@@ -112,7 +115,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             execute(message);
             log.info("Reply sent");
         } catch (TelegramApiException e){
-            startBot(chatId,userName,e.getMessage());
+            sendMessage(chatId,userName,e.getMessage());
             log.error(e.getMessage());
         }
     }
