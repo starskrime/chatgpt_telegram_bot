@@ -41,8 +41,8 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     @Override
     public void onUpdateReceived(@NotNull Update update) {
-        long chatId = 0;
-        long userId = 0;
+        long chatId = update.getMessage().getChatId();
+        long userId = update.getMessage().getFrom().getId();
         String userName;
         String receivedMessage;
 
@@ -50,8 +50,8 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         System.out.println("Text: " + update.getMessage().getText());
 
         if(update.hasMessage()) {
-            chatId = update.getMessage().getChatId();
-            userId = update.getMessage().getFrom().getId();
+
+
             userName = update.getMessage().getFrom().getFirstName();
 
 
@@ -63,12 +63,14 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             }
 
         } else if (update.hasCallbackQuery()) {
-            chatId = update.getCallbackQuery().getMessage().getChatId();
-            userId = update.getCallbackQuery().getFrom().getId();
+            //chatId = update.getCallbackQuery().getMessage().getChatId();
+            //userId = update.getCallbackQuery().getFrom().getId();
             userName = update.getCallbackQuery().getFrom().getFirstName();
             receivedMessage = update.getCallbackQuery().getData();
 
             botAnswerUtils(receivedMessage, chatId, userName);
+        }else{
+            sendMessage(chatId,"aa","asasas");
         }
 
         //Temp code
