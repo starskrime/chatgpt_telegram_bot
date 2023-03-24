@@ -5,10 +5,12 @@ import com.starskrime.chatgpt_telegram_bot.enumeration.BotMod;
 import com.starskrime.chatgpt_telegram_bot.repository.UserConfigRepository;
 import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @AllArgsConstructor
+@Service
 public class UserConfigServiceImpl implements UserConfigService {
     private final UserConfigRepository userConfigRepository;
 

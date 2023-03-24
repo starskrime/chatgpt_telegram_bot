@@ -2,7 +2,9 @@ package com.starskrime.chatgpt_telegram_bot.service.impl;
 
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramBotConfiguration;
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonConfiguration;
+import com.starskrime.chatgpt_telegram_bot.entity.UserConfig;
 import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
+import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import javax.validation.constraints.NotNull;
-
+import java.util.Optional;
 
 
 @Component
@@ -20,9 +22,11 @@ import javax.validation.constraints.NotNull;
 public class TelegramBotServiceImpl extends TelegramLongPollingBot implements TelegramBotService {
 
     private final TelegramBotConfiguration telegramBotConfiguration;
+    private final UserConfigService userConfigService;
 
-    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
+    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration, UserConfigService userConfigService) {
         this.telegramBotConfiguration = telegramBotConfiguration;
+        this.userConfigService = userConfigService;
         sendMessage(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","Hi. I just started");
         try {
             this.execute(new SetMyCommands(LIST_OF_COMMANDS, new BotCommandScopeDefault(), null));
@@ -51,6 +55,13 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         long userId = update.getMessage().getFrom().getId();
         String userName;
         String receivedMessage;
+        Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
+
+        if (userConfig.isEmpty()){
+            sendMessage(chatId,"","Api Key is not specified");
+        }
+
+
 
         if(update.hasMessage()) {
             userName = update.getMessage().getFrom().getFirstName();
