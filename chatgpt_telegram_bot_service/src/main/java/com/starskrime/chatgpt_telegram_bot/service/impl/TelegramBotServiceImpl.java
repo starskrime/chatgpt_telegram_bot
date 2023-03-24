@@ -63,7 +63,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             availableFeatures(receivedMessage, chatId, userName);
         } else  if (receivedMessage.startsWith("sk-")) {
             UserConfig currentUser;
-            if (userConfig.isPresent()){
+            if (userConfig.get().getTelegramUserId() == null){
                 currentUser = userConfig.get();
                 currentUser.setChatGptApiKey(receivedMessage);
             }else {
