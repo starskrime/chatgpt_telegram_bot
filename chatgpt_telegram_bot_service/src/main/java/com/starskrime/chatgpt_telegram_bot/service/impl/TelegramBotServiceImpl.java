@@ -15,12 +15,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
 @Component
 @Slf4j
 public class TelegramBotServiceImpl extends TelegramLongPollingBot implements TelegramBotService {
+
+    Map<String,String> lastMessage = new HashMap<>();
 
     private final TelegramBotConfiguration telegramBotConfiguration;
     private final UserConfigService userConfigService;
@@ -52,15 +56,15 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     }
     @Override
     public void onUpdateReceived(@NotNull Update update) {
-        long chatId = update.getMessage().getChatId();
-        long userId = update.getMessage().getFrom().getId();
+        String chatId = update.getMessage().getChatId().toString();
+        String userId = update.getMessage().getFrom().getId().toString();
         String userName=update.getMessage().getFrom().getFirstName();
         String receivedMessage  = update.getMessage().getText();
-        Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
+        Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
 
         if (update.getMessage().getText().startsWith("/")) {
-            availableFeatures(receivedMessage, chatId, userName);
-        } else  if (receivedMessage.startsWith("sk-")) {
+            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
+        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setKey")) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
@@ -77,6 +81,8 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }else if (userConfig.isEmpty()){
             sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
         }else if(update.hasMessage()) {
+            BotMode botMode = userConfig.get().getBotMode();
+
 
         }
 
