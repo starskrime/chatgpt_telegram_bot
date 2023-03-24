@@ -15,5 +15,6 @@ public interface TelegramBotService {
             "The following commands are available to you:\n\n" +
             "/start - start the bot\n" +
             "/help - help menu";
+    String MODE_LIST="List of available modes: \n/GRAMMAR \n/AI";
 
 }

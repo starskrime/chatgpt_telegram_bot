@@ -6,8 +6,10 @@ import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import javax.validation.constraints.NotNull;
 
@@ -19,9 +21,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     private final TelegramBotConfiguration telegramBotConfiguration;
 
-    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
+    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) throws TelegramApiException {
         this.telegramBotConfiguration = telegramBotConfiguration;
         sendMessage(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","Hi. I just started");
+        execute(new SetMyCommands(LIST_OF_COMMANDS, new BotCommandScopeDefault(), null));
     }
 
     @Override
@@ -38,7 +41,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     public void onRegister() {
 
     }
-
     @Override
     public void onUpdateReceived(@NotNull Update update) {
         long chatId = update.getMessage().getChatId();
@@ -50,13 +52,11 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         System.out.println("Text: " + update.getMessage().getText());
 
         if(update.hasMessage()) {
-
-
             userName = update.getMessage().getFrom().getFirstName();
 
             if (update.getMessage().hasText()) {
                 receivedMessage = update.getMessage().getText();
-                botAnswerUtils(receivedMessage, chatId, userName);
+                availableFeatures(receivedMessage, chatId, userName);
             }
 
         } else if (update.hasCallbackQuery()) {
@@ -65,9 +65,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             userName = update.getCallbackQuery().getFrom().getFirstName();
             receivedMessage = update.getCallbackQuery().getData();
 
-            botAnswerUtils(receivedMessage, chatId, userName);
-        }else{
-            sendMessage(chatId,"aa","asasas");
+            availableFeatures(receivedMessage, chatId, userName);
         }
 
         //Temp code
@@ -82,7 +80,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         //Temp code /
     }
 
-    private void botAnswerUtils(String receivedMessage, long chatId, String userName) {
+    private void availableFeatures(String receivedMessage, long chatId, String userName) {
         switch (receivedMessage){
             case "/start":
                 sendMessage(chatId, userName,"");
@@ -91,12 +89,11 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 sendHelpText(chatId, HELP_TEXT);
                 break;
             case "/mode-list":
-                sendHelpText(chatId, "List of available messages: \n/GRAMMAR \n/AI");
+                sendHelpText(chatId, MODE_LIST);
                 break;
             default:
-                sendHelpText(chatId, "asasasasas");
+                sendMessage(chatId, userName,"");
                 break;
-            //default: break;
         }
     }
 
