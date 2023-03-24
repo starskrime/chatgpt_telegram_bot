@@ -81,14 +81,14 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }
 
         //Temp code
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText("Received: " + update.getMessage().getText());
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
+//        SendMessage message = new SendMessage();
+//        message.setChatId(chatId);
+//        message.setText("Received: " + update.getMessage().getText());
+//        try {
+//            execute(message);
+//        } catch (TelegramApiException e) {
+//            throw new RuntimeException(e);
+//        }
         //Temp code /
     }
 
