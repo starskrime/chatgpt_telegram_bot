@@ -12,10 +12,13 @@ public class UserConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Column(name = "userId")
     private String telegramUserId;
+
     @Column(name = "key")
     private String chatGptApiKey;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "mode")
     private BotMode botMode;

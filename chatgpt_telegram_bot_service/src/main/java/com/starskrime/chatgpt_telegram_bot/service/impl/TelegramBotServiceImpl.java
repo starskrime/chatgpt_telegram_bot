@@ -57,13 +57,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         String userName=update.getMessage().getFrom().getFirstName();
         String receivedMessage  = update.getMessage().getText();
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
-        BotMode botMode = userConfig.get().getBotMode();
 
         if (update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, chatId, userName);
         } else  if (receivedMessage.startsWith("sk-")) {
             UserConfig currentUser;
-            if (userConfig.get().getTelegramUserId() == null){
+            if (userConfig.isPresent()){
                 currentUser = userConfig.get();
                 currentUser.setChatGptApiKey(receivedMessage);
             }else {
@@ -78,7 +77,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }else if (userConfig.isEmpty()){
             sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
         }else if(update.hasMessage()) {
-
 
         }
 
