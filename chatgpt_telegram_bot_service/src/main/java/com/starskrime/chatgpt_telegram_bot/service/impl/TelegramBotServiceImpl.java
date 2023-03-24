@@ -54,19 +54,21 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         long chatId = update.getMessage().getChatId();
         long userId = update.getMessage().getFrom().getId();
         String userName=update.getMessage().getFrom().getFirstName();
-        String receivedMessage;
+        String receivedMessage  = update.getMessage().getText();
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
+
+        if (update.getMessage().getText().startsWith("/")) {
+            availableFeatures(receivedMessage, chatId, userName);
+        }
 
         if (userConfig.isEmpty()){
             sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
         }
 
         if(update.hasMessage()) {
-            receivedMessage = update.getMessage().getText();
 
-            if (update.getMessage().getText().startsWith("/")) {
-                availableFeatures(receivedMessage, chatId, userName);
-            }
+
+
 
         }
 
