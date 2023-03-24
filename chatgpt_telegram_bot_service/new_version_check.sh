@@ -7,4 +7,4 @@ fi
 ./build.sh &&
 
 kill -9 $id
-java -jar target/chatgpt_telegram_bot-0.0.1-SNAPSHOT.jar &
+java -jar target/chatgpt_telegram_bot-0.0.1-SNAPSHOT.jar > /tmp/app.log &
