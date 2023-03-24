@@ -107,7 +107,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 sendHelpText(chatId, HELP_TEXT);
                 break;
             default:
-                sendMessage(chatId, userName,"");
                 break;
         }
     }
