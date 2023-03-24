@@ -1,7 +1,6 @@
 package com.starskrime.chatgpt_telegram_bot.service.impl;
 
 import com.starskrime.chatgpt_telegram_bot.entity.UserConfig;
-import com.starskrime.chatgpt_telegram_bot.enumeration.BotMod;
 import com.starskrime.chatgpt_telegram_bot.repository.UserConfigRepository;
 import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.AllArgsConstructor;

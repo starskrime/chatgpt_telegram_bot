@@ -3,6 +3,7 @@ package com.starskrime.chatgpt_telegram_bot.service.impl;
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramBotConfiguration;
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonConfiguration;
 import com.starskrime.chatgpt_telegram_bot.entity.UserConfig;
+import com.starskrime.chatgpt_telegram_bot.enumeration.BotMode;
 import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
 import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.extern.slf4j.Slf4j;
@@ -56,17 +57,27 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         String userName=update.getMessage().getFrom().getFirstName();
         String receivedMessage  = update.getMessage().getText();
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
+        BotMode botMode = userConfig.get().getBotMode();
 
         if (update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, chatId, userName);
+        } else  if (receivedMessage.startsWith("sk-")) {
+            UserConfig currentUser;
+            if (userConfig.isPresent()){
+                currentUser = userConfig.get();
+                currentUser.setChatGptApiKey(receivedMessage);
+            }else {
+                currentUser = new UserConfig();
+                currentUser.setTelegramUserId(String.valueOf(userId));
+                currentUser.setChatGptApiKey(receivedMessage);
+                currentUser.setBotMode(BotMode.AI);
+            }
+            userConfigService.saveUserConfig(currentUser);
+            sendMessage(chatId,"","Api Key is successfully received.");
+
         }else if (userConfig.isEmpty()){
             sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
-        }
-
-        if(update.hasMessage()) {
-
-
-
+        }else if(update.hasMessage()) {
 
         }
 

@@ -1,6 +1,6 @@
 package com.starskrime.chatgpt_telegram_bot.entity;
 
-import com.starskrime.chatgpt_telegram_bot.enumeration.BotMod;
+import com.starskrime.chatgpt_telegram_bot.enumeration.BotMode;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +18,6 @@ public class UserConfig {
     private String chatGptApiKey;
     @Enumerated(EnumType.STRING)
     @Column(name = "mode")
-    private BotMod botMod = BotMod.AI;
+    private BotMode botMode;
 
 }
