@@ -58,7 +58,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
 
         if (userConfig.isEmpty()){
-            sendMessage(chatId,"","Api Key is not specified. use /setKey comand to specify api key.");
+            sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
         }
 
 
