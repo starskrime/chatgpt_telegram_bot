@@ -8,7 +8,8 @@ public interface TelegramBotService {
 
     List<BotCommand> LIST_OF_COMMANDS = List.of(
             new BotCommand("/start", "Lets go"),
-            new BotCommand("/mode-list", "Lets see what we have ?"),
+            new BotCommand("/setKey", "I want to use my own relation with ChatGPT"),
+            new BotCommand("/modeList", "Lets see what we have ?"),
             new BotCommand("/help", "Help me")
     );
 
