@@ -10,7 +10,5 @@ D
 Vsrc/main/java/com/starskrime/chatgpt_telegram_bot/repository/UserApiKeyRepository.java,2/5/252e903570749fdcf89ea83e7a67c7c97ffbe2c1
 Ü
 Vsrc/main/java/com/starskrime/chatgpt_telegram_bot/service/impl/ChatGptServiceImpl.java,6/e/6e0facd7169bcca0af6c7cec6e5c950d75f07da3
-ç
-]src/main/java/com/starskrime/chatgpt_telegram_bot/configuration/TelegramBotConfiguration.java,f/c/fc382d628ad1b8fce6112bb65dc09fa57cfe9e0d
 Ñ
 Tsrc/main/java/com/starskrime/chatgpt_telegram_bot/ChatgptTelegramBotApplication.java,b/4/b46febea2e03b82045c65776349c1c24c80e9cf8

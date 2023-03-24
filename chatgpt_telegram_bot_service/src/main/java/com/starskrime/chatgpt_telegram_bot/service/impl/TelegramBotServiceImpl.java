@@ -54,9 +54,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
             userName = update.getMessage().getFrom().getFirstName();
 
-
-
-
             if (update.getMessage().hasText()) {
                 receivedMessage = update.getMessage().getText();
                 botAnswerUtils(receivedMessage, chatId, userName);
@@ -96,7 +93,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             case "/mode-list":
                 sendHelpText(chatId, "List of available messages: \n/GRAMMAR \n/AI");
                 break;
-            default: break;
+            default:
+                sendHelpText(chatId, "asasasasas");
+                break;
+            //default: break;
         }
     }
 
