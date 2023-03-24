@@ -105,12 +105,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     private void sendMessage(long chatId, String userName, String customMessage) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-//        if (customMessage.isEmpty()){
-//            message.setText("Hi, " + userName + "! I'm a ChatGPT bot in Telegram. Chat ID: "+ chatId);
-//            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
-//        }else {
+        if (customMessage.isEmpty()){
+            message.setText("Hi, " + userName + "! I'm a ChatGPT bot in Telegram. Chat ID: "+ chatId);
+            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
+        }else {
             message.setText(customMessage);
-        //}
+        }
 
 
 
