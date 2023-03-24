@@ -52,9 +52,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         String userName;
         String receivedMessage;
 
-        System.out.println("Received: " + update.getMessage().toString());
-        System.out.println("Text: " + update.getMessage().getText());
-
         if(update.hasMessage()) {
             userName = update.getMessage().getFrom().getFirstName();
 
