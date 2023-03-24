@@ -53,7 +53,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     public void onUpdateReceived(@NotNull Update update) {
         long chatId = update.getMessage().getChatId();
         long userId = update.getMessage().getFrom().getId();
-        String userName;
+        String userName=update.getMessage().getFrom().getFirstName();
         String receivedMessage;
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(String.valueOf(userId));
 
@@ -61,24 +61,22 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
         }
 
-
-
         if(update.hasMessage()) {
-            userName = update.getMessage().getFrom().getFirstName();
+            receivedMessage = update.getMessage().getText();
 
-            if (update.getMessage().hasText()) {
-                receivedMessage = update.getMessage().getText();
+            if (update.getMessage().getText().startsWith("/")) {
                 availableFeatures(receivedMessage, chatId, userName);
             }
 
-        } else if (update.hasCallbackQuery()) {
-            //chatId = update.getCallbackQuery().getMessage().getChatId();
-            //userId = update.getCallbackQuery().getFrom().getId();
-            userName = update.getCallbackQuery().getFrom().getFirstName();
-            receivedMessage = update.getCallbackQuery().getData();
-
-            availableFeatures(receivedMessage, chatId, userName);
         }
+
+
+
+
+//        else if (update.hasCallbackQuery()) {
+//            receivedMessage = update.getCallbackQuery().getData();
+//            availableFeatures(receivedMessage, chatId, userName);
+//        }
 
         //Temp code
 //        SendMessage message = new SendMessage();
