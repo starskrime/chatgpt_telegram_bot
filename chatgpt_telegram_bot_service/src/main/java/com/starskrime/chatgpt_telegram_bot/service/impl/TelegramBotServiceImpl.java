@@ -63,6 +63,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
 
         if (update.getMessage().getText().startsWith("/")) {
+
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
         } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setKey")) {
             UserConfig currentUser;
@@ -104,6 +105,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 //            throw new RuntimeException(e);
 //        }
         //Temp code /
+        lastMessage.put(chatId,receivedMessage);
     }
 
     private void availableFeatures(String receivedMessage, long chatId, String userName) {
