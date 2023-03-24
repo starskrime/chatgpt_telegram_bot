@@ -21,10 +21,14 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     private final TelegramBotConfiguration telegramBotConfiguration;
 
-    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) throws TelegramApiException {
+    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration) {
         this.telegramBotConfiguration = telegramBotConfiguration;
         sendMessage(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","Hi. I just started");
-        execute(new SetMyCommands(LIST_OF_COMMANDS, new BotCommandScopeDefault(), null));
+        try {
+            this.execute(new SetMyCommands(LIST_OF_COMMANDS, new BotCommandScopeDefault(), null));
+        } catch (TelegramApiException e){
+            log.error(e.getMessage());
+        }
     }
 
     @Override
@@ -101,12 +105,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     private void sendMessage(long chatId, String userName, String customMessage) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        if (customMessage.isEmpty()){
-            message.setText("Hi, " + userName + "! I'm a ChatGPT bot in Telegram. Chat ID: "+ chatId);
-            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
-        }else {
+//        if (customMessage.isEmpty()){
+//            message.setText("Hi, " + userName + "! I'm a ChatGPT bot in Telegram. Chat ID: "+ chatId);
+//            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
+//        }else {
             message.setText(customMessage);
-        }
+        //}
 
 
 
