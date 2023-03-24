@@ -59,9 +59,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
         if (update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, chatId, userName);
-        }
-
-        if (userConfig.isEmpty()){
+        }else if (userConfig.isEmpty()){
             sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
         }
 
