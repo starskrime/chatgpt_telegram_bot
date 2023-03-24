@@ -77,10 +77,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 currentUser.setBotMode(BotMode.AI);
             }
             userConfigService.saveUserConfig(currentUser);
-            sendMessage(chatId,"","Api Key is successfully received.");
+            sendMessage(Long.parseLong(chatId),"","Api Key is successfully received.");
 
         }else if (userConfig.isEmpty()){
-            sendMessage(chatId,"","Api Key is not specified. use /setKey command to specify api key.");
+            sendMessage(Long.parseLong(chatId),"","Api Key is not specified. use /setKey command to specify api key.");
         }else if(update.hasMessage()) {
             BotMode botMode = userConfig.get().getBotMode();
 
