@@ -95,7 +95,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             request.setQuestion(update.getMessage().getText());
             ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
             System.out.println("RESPONSE: "+ response.toString());
-            sendMessage(Long.parseLong(chatId),userId,response.getObject());
+            sendMessage(Long.parseLong(chatId),userId,response.getChoices().get(0).getMessage().getContent());
         }
 
 
