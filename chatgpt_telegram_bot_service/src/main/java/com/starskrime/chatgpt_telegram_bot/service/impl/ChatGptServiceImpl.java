@@ -30,7 +30,8 @@ public class ChatGptServiceImpl implements ChatGptService {
                 .build();
         apiKey = "Bearer " + apiKey;
 
-        System.out.println("Sending request. Message: " + request + " apiKey: " + apiKey);
+
+        System.out.println("Sending request. Message: " + chatGPTRequest.toString() + " apiKey: " + apiKey);
         return openAIClient.chat(apiKey,chatGPTRequest);
     }
 
