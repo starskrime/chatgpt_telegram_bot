@@ -14,8 +14,8 @@ public class TelegramButtonConfiguration {
 
     public static InlineKeyboardMarkup inlineMarkup() {
         START_BUTTON.setCallbackData("/start");
-        SET_KEY_BUTTON.setCallbackData("/setKey");
-        MODE_BUTTON.setCallbackData("/modeList");
+        SET_KEY_BUTTON.setCallbackData("/setkey");
+        MODE_BUTTON.setCallbackData("/modelist");
         HELP_BUTTON.setCallbackData("/help");
 
 
