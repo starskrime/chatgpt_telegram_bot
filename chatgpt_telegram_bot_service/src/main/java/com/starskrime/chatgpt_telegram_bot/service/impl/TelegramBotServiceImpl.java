@@ -60,14 +60,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         return telegramBotConfiguration.getBotToken();
     }
 
-    @Override
-    public void onRegister() {
-
-    }
 
 
     @Override
-    public void onUpdateReceived(Update update) {
+    public void onUpdateReceived(@NotNull Update update) {
 
         String chatId = update.getMessage().getChatId().toString();
         String userId = update.getMessage().getFrom().getId().toString();
