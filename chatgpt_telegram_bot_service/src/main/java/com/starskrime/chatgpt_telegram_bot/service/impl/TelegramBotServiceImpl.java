@@ -124,10 +124,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             case "/start":
                 sendMessage(chatId, userName,"");
                 break;
-            case "/setKey":
+            case "/mykey":
                 sendHelpText(chatId, "Please specify you ChatGPT API key");
                 break;
-            case "/modeList":
+            case "/modelist":
                 sendHelpText(chatId, MODE_LIST);
                 break;
             case "/help":
