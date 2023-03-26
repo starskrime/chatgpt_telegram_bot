@@ -68,13 +68,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         String receivedMessage  = update.getMessage().getText();
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
 
-        if (update.getMessage().getText().startsWith("/")) {
+        if (update.getMessage().getText().startsWith("/") && update.getMessage().getText().length() ==1) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
         }else  if (receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setmode") ) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
-
         } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setkey")) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
