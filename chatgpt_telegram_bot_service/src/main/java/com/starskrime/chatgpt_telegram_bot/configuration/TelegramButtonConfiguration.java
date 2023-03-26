@@ -19,7 +19,7 @@ public class TelegramButtonConfiguration {
         HELP_BUTTON.setCallbackData("/help");
 
 
-        List<InlineKeyboardButton> rowInline = List.of(START_BUTTON, HELP_BUTTON,MODE_BUTTON,SET_KEY_BUTTON);
+        List<InlineKeyboardButton> rowInline = List.of(START_BUTTON,SET_KEY_BUTTON,MODE_BUTTON, HELP_BUTTON);
         List<List<InlineKeyboardButton>> rowsInLine = List.of(rowInline);
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         markupInline.setKeyboard(rowsInLine);

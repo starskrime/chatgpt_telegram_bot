@@ -16,6 +16,7 @@ public interface TelegramBotService {
     String HELP_TEXT = "This bot will connect you with ChatGpt latest api.\n" +
             "The following commands are available to you:\n\n" +
             "/start - start the bot\n" +
+            "/mykey - use your own OpenAI API key\n" +
             "/help - help menu";
     String MODE_LIST="List of available modes: \n/grammar \n/ai";
 
