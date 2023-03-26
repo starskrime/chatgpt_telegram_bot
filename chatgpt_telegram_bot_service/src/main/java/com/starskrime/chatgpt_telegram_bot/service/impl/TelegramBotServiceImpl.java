@@ -96,13 +96,13 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 //        String receivedMessage  = update.getMessage().getText();
 //        Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
 
-        if (update.getMessage().getText().startsWith("/")) {
+        if (update.getMessage() !=null && update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        }else  if (receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setmode") && false ) {
+        }else  if (update.getMessage() !=null && receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setmode") && false ) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
-        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/mykey")) {
+        } else  if (update.getMessage() !=null &&  receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/mykey")) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
@@ -117,7 +117,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             sendMessage(Long.parseLong(chatId),"","Api key is successfully saved.");
         }else if (userConfig.isEmpty()){
             sendMessage(Long.parseLong(chatId),"","ChatGPT api key is not specified. Please use the link to get api key : https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key and send /mykey command to specify api key next.");
-        }else if(update.hasMessage()) {
+        }else if(update.getMessage() !=null &&  update.hasMessage()) {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
             ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
