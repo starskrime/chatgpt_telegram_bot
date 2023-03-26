@@ -70,11 +70,31 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     public void onUpdateReceived(@NotNull Update update) {
         System.out.println("UPDATE: " + update.toString());
 
-        String chatId = update.getMessage().getChatId().toString();
-        String userId = update.getMessage().getFrom().getId().toString();
-        String userName=update.getMessage().getFrom().getFirstName();
-        String receivedMessage  = update.getMessage().getText();
-        Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
+        String chatId;
+        String userId;
+        String userName;
+        String receivedMessage;
+        Optional<UserConfig> userConfig;
+
+        if (update.getMessage()==null){
+            chatId = String.valueOf(update.getCallbackQuery().getFrom().getId());
+            userId = String.valueOf(update.getCallbackQuery().getFrom().getId());
+            userName = String.valueOf(update.getCallbackQuery().getFrom().getUserName());
+            receivedMessage="";
+            userConfig = userConfigService.getUserConfig(userId);
+        }else{
+            chatId = update.getMessage().getChatId().toString();
+            userId = update.getMessage().getFrom().getId().toString();
+            userName=update.getMessage().getFrom().getFirstName();
+            receivedMessage  = update.getMessage().getText();
+            userConfig = userConfigService.getUserConfig(userId);
+        }
+
+//        String chatId = update.getMessage().getChatId().toString();
+//        String userId = update.getMessage().getFrom().getId().toString();
+//        String userName=update.getMessage().getFrom().getFirstName();
+//        String receivedMessage  = update.getMessage().getText();
+//        Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
 
         if (update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
@@ -107,10 +127,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
 
 
-//        else if (update.hasCallbackQuery()) {
-//            receivedMessage = update.getCallbackQuery().getData();
-//            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-//        }
+        else if (update.hasCallbackQuery()) {
+            receivedMessage = update.getCallbackQuery().getData();
+            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
+        }
 
         lastMessage.put(chatId,receivedMessage);
     }
