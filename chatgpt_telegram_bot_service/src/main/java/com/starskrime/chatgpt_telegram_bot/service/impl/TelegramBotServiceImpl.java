@@ -74,7 +74,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
-        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setkey")) {
+        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/mykey")) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
@@ -89,7 +89,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             sendMessage(Long.parseLong(chatId),"","Api Key is successfully configured.");
 
         }else if (userConfig.isEmpty()){
-            sendMessage(Long.parseLong(chatId),"","Api Key is not specified.Please use /setkey command to specify api key.");
+            sendMessage(Long.parseLong(chatId),"","Api Key is not specified.Please use /mykey command to specify api key.");
         }else if(update.hasMessage()) {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
