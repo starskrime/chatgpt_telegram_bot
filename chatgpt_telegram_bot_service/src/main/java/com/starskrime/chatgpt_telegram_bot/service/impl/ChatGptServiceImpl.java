@@ -5,11 +5,11 @@ import com.starskrime.chatgpt_telegram_bot.configuration.OpenAIClientConfigurati
 import com.starskrime.chatgpt_telegram_bot.dto.*;
 import com.starskrime.chatgpt_telegram_bot.service.ChatGptService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class ChatGptServiceImpl implements ChatGptService {
     private final OpenAIClient openAIClient;
