@@ -81,7 +81,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 currentUser.setChatGptApiKey(receivedMessage);
             }else {
                 currentUser = new UserConfig();
-                currentUser.setTelegramUserId(String.valueOf(userId));
+                currentUser.setTelegramUserId(userId);
                 currentUser.setChatGptApiKey(receivedMessage);
                 currentUser.setBotMode(BotMode.AI);
             }
