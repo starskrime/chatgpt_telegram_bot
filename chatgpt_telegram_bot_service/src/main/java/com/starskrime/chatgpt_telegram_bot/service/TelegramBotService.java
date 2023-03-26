@@ -7,10 +7,10 @@ import java.util.List;
 public interface TelegramBotService {
 
     List<BotCommand> LIST_OF_COMMANDS = List.of(
-            new BotCommand("/start", "(NOT IMPLEMENTED YET) Lets go"),
+            new BotCommand("/start", "Lets go"),
             new BotCommand("/mykey", "I want to use my own relation with ChatGPT"),
             new BotCommand("/modelist", "(NOT IMPLEMENTED YET) Lets see what we have ?"),
-            new BotCommand("/help", "(NOT IMPLEMENTED YET) Help me")
+            new BotCommand("/help", "Help me")
     );
 
     String HELP_TEXT = "This bot will connect you with ChatGpt latest api.\n" +
