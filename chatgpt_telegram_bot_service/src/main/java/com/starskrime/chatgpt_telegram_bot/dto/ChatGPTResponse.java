@@ -1,7 +1,7 @@
 package com.starskrime.chatgpt_telegram_bot.dto;
 
 import lombok.Data;
-import org.jboss.jandex.TypeTarget;
+import org.jboss.jandex.*;
 
 
 import java.awt.*;
@@ -16,5 +16,5 @@ public class ChatGPTResponse implements Serializable {
     private String model;
     private LocalDate created;
     private List<Choice> choices;
-    private TypeTarget.Usage usage;
+    //private TypeTarget.Usage usage;
 }

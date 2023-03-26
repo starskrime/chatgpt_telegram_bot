@@ -1,5 +1,6 @@
 package com.starskrime.chatgpt_telegram_bot.service.impl;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.starskrime.chatgpt_telegram_bot.client.OpenAIClient;
 import com.starskrime.chatgpt_telegram_bot.configuration.OpenAIClientConfiguration;
 import com.starskrime.chatgpt_telegram_bot.dto.*;
