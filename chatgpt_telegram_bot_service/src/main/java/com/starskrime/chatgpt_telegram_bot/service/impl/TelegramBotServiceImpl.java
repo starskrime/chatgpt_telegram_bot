@@ -62,6 +62,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     }
     @Override
     public void onUpdateReceived(@NotNull Update update) {
+
         String chatId = update.getMessage().getChatId().toString();
         String userId = update.getMessage().getFrom().getId().toString();
         String userName=update.getMessage().getFrom().getFirstName();
@@ -87,14 +88,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             }
             userConfigService.saveUserConfig(currentUser);
             sendMessage(Long.parseLong(chatId),"","Api Key is successfully configured.");
-
         }else if (userConfig.isEmpty()){
             sendMessage(Long.parseLong(chatId),"","Api Key is not specified.Please use /mykey command to specify api key.");
         }else if(update.hasMessage()) {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
             ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
-            System.out.println("RESPONSE: "+ response.toString());
             sendMessage(Long.parseLong(chatId),userId,response.getChoices().get(0).getMessage().getContent());
         }
 
@@ -106,16 +105,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 //            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
 //        }
 
-        //Temp code
-//        SendMessage message = new SendMessage();
-//        message.setChatId(chatId);
-//        message.setText("Received: " + update.getMessage().getText());
-//        try {
-//            execute(message);
-//        } catch (TelegramApiException e) {
-//            throw new RuntimeException(e);
-//        }
-        //Temp code /
         lastMessage.put(chatId,receivedMessage);
     }
 

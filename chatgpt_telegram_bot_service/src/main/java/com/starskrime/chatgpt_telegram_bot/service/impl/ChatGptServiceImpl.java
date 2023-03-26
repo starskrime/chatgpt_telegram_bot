@@ -15,11 +15,10 @@ import java.util.Collections;
 public class ChatGptServiceImpl implements ChatGptService {
     private final OpenAIClient openAIClient;
     private final OpenAIClientConfiguration openAIClientConfig;
-
     private static final String ROLE_USER = "user";
 
     @Override
-    public ChatGPTResponse chat(ChatRequest request, String apiKey){
+    public ChatGPTResponse chat(ChatRequest request, String apiKey) {
         Message message = Message.builder()
                 .role(ROLE_USER)
                 .content(request.getQuestion())
@@ -29,19 +28,16 @@ public class ChatGptServiceImpl implements ChatGptService {
                 .messages(Collections.singletonList(message))
                 .build();
         apiKey = "Bearer " + apiKey;
-
-
-        System.out.println("Sending request. Message: " + chatGPTRequest.toString() + " apiKey: " + apiKey);
-        return openAIClient.chat(apiKey,chatGPTRequest);
+        return openAIClient.chat(apiKey, chatGPTRequest);
     }
 
     @Override
-    public WhisperTranscriptionResponse createTranscription(TranscriptionRequest transcriptionRequest,String apiKey){
+    public WhisperTranscriptionResponse createTranscription(TranscriptionRequest transcriptionRequest, String apiKey) {
         WhisperTranscriptionRequest whisperTranscriptionRequest = WhisperTranscriptionRequest.builder()
                 .model(openAIClientConfig.getAudioModel())
                 .file(transcriptionRequest.getFile())
                 .build();
         apiKey = "Bearer " + apiKey;
-        return openAIClient.createTranscription(apiKey,whisperTranscriptionRequest);
+        return openAIClient.createTranscription(apiKey, whisperTranscriptionRequest);
     }
 }
