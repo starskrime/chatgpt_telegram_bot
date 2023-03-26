@@ -15,6 +15,6 @@ public class ChatGPTResponse implements Serializable {
     private String object;
     private String model;
     private LocalDate created;
-    //private List<Choice> choices;
-    //private String usage;
+    private List<Choice> choices;
+    private Usage usage;
 }
