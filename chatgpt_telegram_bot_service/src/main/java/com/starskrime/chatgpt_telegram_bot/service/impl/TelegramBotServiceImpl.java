@@ -70,12 +70,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
         if (update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        }else  if (receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setMode") ) {
+        }else  if (receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setmode") ) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
 
-        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setKey")) {
+        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setkey")) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
@@ -90,7 +90,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             sendMessage(Long.parseLong(chatId),"","Api Key is successfully received.");
 
         }else if (userConfig.isEmpty()){
-            sendMessage(Long.parseLong(chatId),"","Api Key is not specified. use /setKey command to specify api key.");
+            sendMessage(Long.parseLong(chatId),"","Api Key is not specified. use /setkey command to specify api key.");
         }else if(update.hasMessage()) {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
