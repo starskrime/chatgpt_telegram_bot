@@ -2,8 +2,12 @@ package com.starskrime.chatgpt_telegram_bot.service.impl;
 
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramBotConfiguration;
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonConfiguration;
+import com.starskrime.chatgpt_telegram_bot.dto.ChatGPTRequest;
+import com.starskrime.chatgpt_telegram_bot.dto.ChatGPTResponse;
+import com.starskrime.chatgpt_telegram_bot.dto.ChatRequest;
 import com.starskrime.chatgpt_telegram_bot.entity.UserConfig;
 import com.starskrime.chatgpt_telegram_bot.enumeration.BotMode;
+import com.starskrime.chatgpt_telegram_bot.service.ChatGptService;
 import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
 import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +32,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     private final TelegramBotConfiguration telegramBotConfiguration;
     private final UserConfigService userConfigService;
+    private final ChatGptService chatGptService;
 
-    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration, UserConfigService userConfigService) {
+    public TelegramBotServiceImpl(TelegramBotConfiguration telegramBotConfiguration, UserConfigService userConfigService, ChatGptService chatGptService) {
         this.telegramBotConfiguration = telegramBotConfiguration;
         this.userConfigService = userConfigService;
+        this.chatGptService = chatGptService;
         sendMessage(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","Hi. I just started");
         try {
             this.execute(new SetMyCommands(LIST_OF_COMMANDS, new BotCommandScopeDefault(), null));
@@ -63,8 +69,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
 
         if (update.getMessage().getText().startsWith("/")) {
-
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
+        }else  if (receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setMode") ) {
+            userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
+            userConfigService.saveUserConfig(userConfig.get());
+            sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
+
         } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/setKey")) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
@@ -82,9 +92,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }else if (userConfig.isEmpty()){
             sendMessage(Long.parseLong(chatId),"","Api Key is not specified. use /setKey command to specify api key.");
         }else if(update.hasMessage()) {
-            BotMode botMode = userConfig.get().getBotMode();
-
-
+            ChatRequest request = new ChatRequest();
+            request.setQuestion(update.getMessage().getText());
+            ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
+            sendMessage(Long.parseLong(chatId),userId,response.getObject());
         }
 
 
