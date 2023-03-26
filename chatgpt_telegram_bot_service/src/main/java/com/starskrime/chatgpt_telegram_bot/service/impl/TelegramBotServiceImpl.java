@@ -101,10 +101,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
 
 
-        else if (update.hasCallbackQuery()) {
-            receivedMessage = update.getCallbackQuery().getData();
-            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        }
+//        else if (update.hasCallbackQuery()) {
+//            receivedMessage = update.getCallbackQuery().getData();
+//            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
+//        }
 
         //Temp code
 //        SendMessage message = new SendMessage();
