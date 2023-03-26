@@ -60,6 +60,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         return telegramBotConfiguration.getBotToken();
     }
 
+    @Override
+    public void onRegister() {
+
+    }
 
 
     @Override
@@ -116,7 +120,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 sendMessage(chatId, userName,"");
                 break;
             case "/mykey":
-                sendHelpText(chatId, "Please specify you ChatGPT API key");
+                sendHelpText(chatId, "Please specify your own ChatGPT API key.");
                 break;
             case "/modelist":
                 sendHelpText(chatId, MODE_LIST);
