@@ -13,11 +13,15 @@ import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,8 +64,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     public void onRegister() {
 
     }
+
+
     @Override
-    public void onUpdateReceived(@NotNull Update update) {
+    public void onUpdateReceived(Update update) {
 
         String chatId = update.getMessage().getChatId().toString();
         String userId = update.getMessage().getFrom().getId().toString();
