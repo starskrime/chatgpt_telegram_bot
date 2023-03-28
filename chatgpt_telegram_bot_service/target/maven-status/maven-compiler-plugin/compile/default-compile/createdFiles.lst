@@ -1,9 +1,0 @@
-com/starskrime/chatgpt_telegram_bot/service/impl/ChatGptServiceImpl.class
-com/starskrime/chatgpt_telegram_bot/service/TelegramBotService.class
-com/starskrime/chatgpt_telegram_bot/service/ChatGptService.class
-com/starskrime/chatgpt_telegram_bot/service/impl/TelegramBotServiceImpl.class
-com/starskrime/chatgpt_telegram_bot/repository/UserApiKeyRepository.class
-com/starskrime/chatgpt_telegram_bot/configuration/SQLDialect.class
-com/starskrime/chatgpt_telegram_bot/ChatgptTelegramBotApplication.class
-com/starskrime/chatgpt_telegram_bot/configuration/TelegramBotConfiguration.class
-com/starskrime/chatgpt_telegram_bot/entity/UserApiKey.class

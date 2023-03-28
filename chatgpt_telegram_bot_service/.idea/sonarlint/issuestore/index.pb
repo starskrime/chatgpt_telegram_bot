@@ -9,9 +9,6 @@ Osrc/main/java/com/starskrime/chatgpt_telegram_bot/dto/TranscriptionRequest.java
 Msrc/main/java/com/starskrime/chatgpt_telegram_bot/service/ChatGptService.java,b/a/ba1691301a3676e83e67f167ac49824febcec20a
 v
 Fsrc/main/java/com/starskrime/chatgpt_telegram_bot/dto/ChatRequest.java,f/3/f38a522128b85f39cd6591371801f659d50d165c
-:
-
-.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
 7
 pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 z
