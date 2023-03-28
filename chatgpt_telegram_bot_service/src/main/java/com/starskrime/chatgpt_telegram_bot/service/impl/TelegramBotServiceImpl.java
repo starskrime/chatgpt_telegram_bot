@@ -185,7 +185,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             ChatRequest request = new ChatRequest();
 
             if (userConfig.get().getBotMode().value.equals("grammar")){
-                receivedMessage = "You are teacher of English language.Check grammar of my sentence: " + receivedMessage;
+                receivedMessage = "You are teacher of English language.Do not provide so much information. Only provide correct sentence. Check grammar of my sentence: " + receivedMessage;
             }
 
             request.setQuestion(receivedMessage);
