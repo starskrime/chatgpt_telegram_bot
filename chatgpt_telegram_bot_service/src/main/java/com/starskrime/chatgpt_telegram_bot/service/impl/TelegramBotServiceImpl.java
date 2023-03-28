@@ -188,7 +188,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         userConfig = userConfigService.getUserConfig(userId);
 
         availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        System.out.println("callback : " + receivedMessage);
         lastMessage.put(chatId,receivedMessage);
     }
 }
