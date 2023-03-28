@@ -3,7 +3,7 @@ package com.starskrime.chatgpt_telegram_bot.enumeration;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum BotCommands {
+public enum CustomBotCommand {
     START("/start"),
     MYKEY("/mykey"),
     MODELIST("/modelist"),

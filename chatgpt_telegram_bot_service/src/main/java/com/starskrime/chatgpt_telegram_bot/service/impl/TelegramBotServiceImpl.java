@@ -5,7 +5,7 @@ import com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonConfigura
 import com.starskrime.chatgpt_telegram_bot.dto.ChatGPTResponse;
 import com.starskrime.chatgpt_telegram_bot.dto.ChatRequest;
 import com.starskrime.chatgpt_telegram_bot.entity.UserConfig;
-import com.starskrime.chatgpt_telegram_bot.enumeration.BotCommands;
+import com.starskrime.chatgpt_telegram_bot.enumeration.CustomBotCommand;
 import com.starskrime.chatgpt_telegram_bot.enumeration.BotMode;
 import com.starskrime.chatgpt_telegram_bot.service.ChatGptService;
 import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
@@ -73,6 +73,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     @Override
     public void onUpdateReceived(@NotNull Update update) {
         log.info("UPDATE: " + update.toString());
+
         if (update.getMessage()==null){
             hasCallBack(update);
         }else{
@@ -141,15 +142,16 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         userName=update.getMessage().getFrom().getFirstName();
         receivedMessage  = update.getMessage().getText();
         userConfig = userConfigService.getUserConfig(userId);
+        String message = update.getMessage().getText();
 
 
-        if (update.getMessage().getText().startsWith("/")) {
+        if (message.startsWith("/")) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        }else  if (update.getMessage() !=null && receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals(BotCommands.MODELIST.value) && false ) {
+        }else  if (receivedMessage.equals(BotMode.AI.value) && lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value) && false ) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
-        } else  if (update.getMessage() !=null &&  receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(BotCommands.MYKEY.value)) {
+        } else  if (receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(CustomBotCommand.MYKEY.value)) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
