@@ -16,6 +16,9 @@ public class TelegramBotConfiguration {
     @Value("${telegram.bot.adminChatId}")
     private Long adminChatId;
 
+    @Value("${chatgpt.mode.grammar}")
+    private String GrammarTeacher;
+
 
 
 }
