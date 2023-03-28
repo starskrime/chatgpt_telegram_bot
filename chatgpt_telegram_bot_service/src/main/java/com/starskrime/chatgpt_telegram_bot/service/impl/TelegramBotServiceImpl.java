@@ -151,7 +151,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }else if((receivedMessage.equals(BotMode.AI.value) || receivedMessage.equals(BotMode.GRAMMAR.value)) && lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
-            sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
+            sendMessage(Long.parseLong(chatId),userName,"Mode changed to: " + receivedMessage);
 
         } else if(receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(CustomBotCommand.MYKEY.value)) {
             UserConfig currentUser;
