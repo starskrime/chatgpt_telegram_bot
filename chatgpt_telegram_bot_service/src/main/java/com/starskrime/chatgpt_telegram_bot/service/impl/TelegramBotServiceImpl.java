@@ -72,8 +72,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     @Override
     public void onUpdateReceived(@NotNull Update update) {
-        log.info("UPDATE: " + update.toString());
-
         if (update.getMessage()==null){
             hasCallBack(update);
         }else{
