@@ -17,7 +17,7 @@ public class TelegramButtonConfiguration {
     public static final List<BotCommand> LIST_OF_COMMANDS = List.of(
             new BotCommand(CustomBotCommand.START.value, "Lets go"),
             new BotCommand(CustomBotCommand.MYKEY.value, "I want to use my own relation with ChatGPT"),
-            new BotCommand(CustomBotCommand.MODELIST.value, "(NOT IMPLEMENTED YET) Lets see what we have ?"),
+            new BotCommand(CustomBotCommand.MODELIST.value, "Lets see what we have ?"),
             new BotCommand(CustomBotCommand.HELP.value, "Help me")
     );
 
