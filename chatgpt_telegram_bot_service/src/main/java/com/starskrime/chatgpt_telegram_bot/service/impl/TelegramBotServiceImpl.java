@@ -31,10 +31,10 @@ import static com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonCo
 @Slf4j
 public class TelegramBotServiceImpl extends TelegramLongPollingBot implements TelegramBotService {
 
-    Map<String,String> lastMessage = new HashMap<>();
+    Map<Long,String> lastMessage = new HashMap<>();
 
-    String chatId;
-    String userId;
+    Long chatId;
+    Long userId;
     String userName;
     String receivedMessage;
     Optional<UserConfig> userConfig;
@@ -137,20 +137,20 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     @Override
     public void hasMessage(@NotNull Update update) {
 
-        chatId = update.getMessage().getChatId().toString();
-        userId = update.getMessage().getFrom().getId().toString();
+        chatId = update.getMessage().getChatId();
+        userId = update.getMessage().getFrom().getId();
         userName=update.getMessage().getFrom().getFirstName();
         receivedMessage  = update.getMessage().getText();
         userConfig = userConfigService.getUserConfig(userId);
 
 
         if (receivedMessage.startsWith("/")) {
-            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
+            availableFeatures(receivedMessage, chatId, userName);
 
         }else if((receivedMessage.equals(BotMode.AI.value) || receivedMessage.equals(BotMode.GRAMMAR.value)) && lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
-            sendMessage(Long.parseLong(chatId),userName,"Mode changed to: " + receivedMessage);
+            sendMessage(chatId,userName,"Mode changed to: " + receivedMessage);
 
         } else if(receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(CustomBotCommand.MYKEY.value)) {
             UserConfig currentUser;
@@ -159,21 +159,21 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 currentUser.setChatGptApiKey(receivedMessage);
             }else {
                 currentUser = new UserConfig();
-                currentUser.setTelegramUserId(userId);
+                currentUser.setTelegramUserId(String.valueOf(userId));
                 currentUser.setChatGptApiKey(receivedMessage);
                 currentUser.setBotMode(BotMode.AI);
             }
             userConfigService.saveUserConfig(currentUser);
-            sendMessage(Long.parseLong(chatId),userName,"Api key is successfully saved.");
+            sendMessage(chatId,userName,"Api key is successfully saved.");
 
         }else if (userConfig.isEmpty()){
-            sendMessage(Long.parseLong(chatId),userName,"ChatGPT api key is not specified. Please use the link to get api key : https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key and send /mykey command to specify api key next.");
+            sendMessage(chatId,userName,"ChatGPT api key is not specified. Please use the link to get api key : https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key and send /mykey command to specify api key next.");
 
         }else {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
             ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
-            sendMessage(Long.parseLong(chatId),userId,response.getChoices().get(0).getMessage().getContent());
+            sendMessage(chatId,userName,response.getChoices().get(0).getMessage().getContent());
         }
 
         lastMessage.put(chatId,receivedMessage);
@@ -181,13 +181,13 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     @Override
     public void hasCallBack(Update update) {
-        chatId = String.valueOf(update.getCallbackQuery().getFrom().getId());
-        userId = String.valueOf(update.getCallbackQuery().getFrom().getId());
+        chatId = update.getCallbackQuery().getFrom().getId();
+        userId = update.getCallbackQuery().getFrom().getId();
         userName = String.valueOf(update.getCallbackQuery().getFrom().getUserName());
         receivedMessage=update.getCallbackQuery().getData();
         userConfig = userConfigService.getUserConfig(userId);
 
-        availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
+        availableFeatures(receivedMessage, chatId, userName);
         lastMessage.put(chatId,receivedMessage);
     }
 }

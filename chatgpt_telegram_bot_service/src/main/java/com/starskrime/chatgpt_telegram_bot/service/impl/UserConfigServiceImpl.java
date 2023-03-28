@@ -16,8 +16,8 @@ public class UserConfigServiceImpl implements UserConfigService {
 
 
     @Override
-    public Optional<UserConfig> getUserConfig(String userId) {
-        return userConfigRepository.findAllByTelegramUserId(userId);
+    public Optional<UserConfig> getUserConfig(Long userId) {
+        return userConfigRepository.findAllByTelegramUserId(String.valueOf(userId));
     }
 
     @Override
