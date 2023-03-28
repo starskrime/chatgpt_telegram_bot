@@ -131,7 +131,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         if(lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
             userConfig.get().setBotMode(botMode);
             userConfigService.saveUserConfig(userConfig.get());
-            sendMessage(chatId,userName,"Mode changed to: " + receivedMessage);
+            sendMessage(chatId,userName,"Mode changed to: " + receivedMessage.toUpperCase().replaceAll("/",""));
             return true;
         }
         return false;
