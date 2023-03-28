@@ -92,6 +92,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             case "/modelist":
                 sendHelpText(chatId, MODE_LIST);
                 break;
+            case "/grammar":
+                setBotMode(chatId,"grammar");
+                break;
+            case "/ai":
+                setBotMode(chatId,"ai");
+                break;
             case "/help":
                 sendHelpText(chatId, HELP_TEXT);
                 break;
@@ -118,6 +124,17 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             sendMessage(chatId,userName,e.getMessage());
             log.error(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean setBotMode(Long chatId, String mode) {
+        if(lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
+            userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
+            userConfigService.saveUserConfig(userConfig.get());
+            sendMessage(chatId,userName,"Mode changed to: " + receivedMessage);
+            return true;
+        }
+        return false;
     }
 
     private void sendHelpText(long chatId, String textToSend){
@@ -180,7 +197,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     }
 
     @Override
-    public void hasCallBack(Update update) {
+    public void hasCallBack(@NotNull Update update) {
         chatId = update.getCallbackQuery().getFrom().getId();
         userId = update.getCallbackQuery().getFrom().getId();
         userName = String.valueOf(update.getCallbackQuery().getFrom().getUserName());
