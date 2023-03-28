@@ -2,10 +2,10 @@ package com.starskrime.chatgpt_telegram_bot.service.impl;
 
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramBotConfiguration;
 import com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonConfiguration;
-import com.starskrime.chatgpt_telegram_bot.dto.ChatGPTRequest;
 import com.starskrime.chatgpt_telegram_bot.dto.ChatGPTResponse;
 import com.starskrime.chatgpt_telegram_bot.dto.ChatRequest;
 import com.starskrime.chatgpt_telegram_bot.entity.UserConfig;
+import com.starskrime.chatgpt_telegram_bot.enumeration.BotCommands;
 import com.starskrime.chatgpt_telegram_bot.enumeration.BotMode;
 import com.starskrime.chatgpt_telegram_bot.service.ChatGptService;
 import com.starskrime.chatgpt_telegram_bot.service.TelegramBotService;
@@ -13,19 +13,18 @@ import com.starskrime.chatgpt_telegram_bot.service.UserConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.starskrime.chatgpt_telegram_bot.configuration.TelegramButtonConfiguration.*;
 
 
 @Component
@@ -34,6 +33,11 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
     Map<String,String> lastMessage = new HashMap<>();
 
+    String chatId;
+    String userId;
+    String userName;
+    String receivedMessage;
+    Optional<UserConfig> userConfig;
     private final TelegramBotConfiguration telegramBotConfiguration;
     private final UserConfigService userConfigService;
     private final ChatGptService chatGptService;
@@ -42,7 +46,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         this.telegramBotConfiguration = telegramBotConfiguration;
         this.userConfigService = userConfigService;
         this.chatGptService = chatGptService;
-        sendMessage(telegramBotConfiguration.getAdminChatId(),"bakirtalibov","Hi. I just started");
+        sendMessage(telegramBotConfiguration.getAdminChatId(),null,"Hi. I just restarted");
         try {
             this.execute(new SetMyCommands(LIST_OF_COMMANDS, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e){
@@ -70,39 +74,84 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     public void onUpdateReceived(@NotNull Update update) {
         System.out.println("UPDATE: " + update.toString());
 
-        String chatId;
-        String userId;
-        String userName;
-        String receivedMessage;
-        Optional<UserConfig> userConfig;
 
         if (update.getMessage()==null){
-            chatId = String.valueOf(update.getCallbackQuery().getFrom().getId());
-            userId = String.valueOf(update.getCallbackQuery().getFrom().getId());
-            userName = String.valueOf(update.getCallbackQuery().getFrom().getUserName());
-            receivedMessage="";
-            userConfig = userConfigService.getUserConfig(userId);
+            hasCallBack(update);
         }else{
-            chatId = update.getMessage().getChatId().toString();
-            userId = update.getMessage().getFrom().getId().toString();
-            userName=update.getMessage().getFrom().getFirstName();
-            receivedMessage  = update.getMessage().getText();
-            userConfig = userConfigService.getUserConfig(userId);
+            hasMessage(update);
         }
+    }
 
-//        String chatId = update.getMessage().getChatId().toString();
-//        String userId = update.getMessage().getFrom().getId().toString();
-//        String userName=update.getMessage().getFrom().getFirstName();
-//        String receivedMessage  = update.getMessage().getText();
-//        Optional<UserConfig> userConfig = userConfigService.getUserConfig(userId);
+    private void availableFeatures(String receivedMessage, long chatId, String userName) {
+        switch (receivedMessage){
+            case "/start":
+                sendMessage(chatId, userName,"");
+                break;
+            case "/mykey":
+                sendHelpText(chatId, "Please specify your own ChatGPT API key.");
+                break;
+            case "/modelist":
+                sendHelpText(chatId, MODE_LIST);
+                break;
+            case "/help":
+                sendHelpText(chatId, HELP_TEXT);
+                break;
+            default:
+                break;
+        }
+    }
 
-        if (update.getMessage() !=null && update.getMessage().getText().startsWith("/")) {
+    @Override
+    public void sendMessage(long chatId, String userName, String customMessage) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+
+        if (customMessage.isEmpty()){
+            message.setText("Hi, " + userName + "! I'm a ChatGPT bot in Telegram. Chat ID: "+ chatId);
+            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
+        }else {
+            message.setText(customMessage);
+        }
+        try {
+            execute(message);
+            log.info("Reply sent");
+        } catch (TelegramApiException e){
+            sendMessage(chatId,userName,e.getMessage());
+            log.error(e.getMessage());
+        }
+    }
+
+    private void sendHelpText(long chatId, String textToSend){
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText(textToSend);
+
+        try {
+            execute(message);
+            log.info("Reply sent");
+        } catch (TelegramApiException e){
+            sendHelpText(chatId,e.getMessage());
+            log.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public void hasMessage(@NotNull Update update) {
+
+        chatId = update.getMessage().getChatId().toString();
+        userId = update.getMessage().getFrom().getId().toString();
+        userName=update.getMessage().getFrom().getFirstName();
+        receivedMessage  = update.getMessage().getText();
+        userConfig = userConfigService.getUserConfig(userId);
+
+
+        if (update.getMessage().getText().startsWith("/")) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        }else  if (update.getMessage() !=null && receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals("/setmode") && false ) {
+        }else  if (update.getMessage() !=null && receivedMessage.equals(BotMode.AI) && lastMessage.get(chatId).equals(BotCommands.MODELIST.value) && false ) {
             userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(Long.parseLong(chatId),"","Mode changed to: " + receivedMessage);
-        } else  if (update.getMessage() !=null &&  receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals("/mykey")) {
+        } else  if (update.getMessage() !=null &&  receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(BotCommands.MYKEY.value)) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
@@ -125,68 +174,21 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }
 
 
-
-
-        else if (update.hasCallbackQuery()) {
-            receivedMessage = update.getCallbackQuery().getData();
-            availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-        }
-
         lastMessage.put(chatId,receivedMessage);
     }
 
-    private void availableFeatures(String receivedMessage, long chatId, String userName) {
-        switch (receivedMessage){
-            case "/start":
-                sendMessage(chatId, userName,"");
-                break;
-            case "/mykey":
-                sendHelpText(chatId, "Please specify your own ChatGPT API key.");
-                break;
-            case "/modelist":
-                sendHelpText(chatId, MODE_LIST);
-                break;
-            case "/help":
-                sendHelpText(chatId, HELP_TEXT);
-                break;
-            default:
-                break;
-        }
-    }
+    @Override
+    public void hasCallBack(Update update) {
+        chatId = String.valueOf(update.getCallbackQuery().getFrom().getId());
+        userId = String.valueOf(update.getCallbackQuery().getFrom().getId());
+        userName = String.valueOf(update.getCallbackQuery().getFrom().getUserName());
+        receivedMessage="";
+        userConfig = userConfigService.getUserConfig(userId);
 
 
-    private void sendMessage(long chatId, String userName, String customMessage) {
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        if (customMessage.isEmpty()){
-            message.setText("Hi, " + userName + "! I'm a ChatGPT bot in Telegram. Chat ID: "+ chatId);
-            message.setReplyMarkup(TelegramButtonConfiguration.inlineMarkup());
-        }else {
-            message.setText(customMessage);
-        }
+        receivedMessage = update.getCallbackQuery().getData();
+        availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
 
-
-
-        try {
-            execute(message);
-            log.info("Reply sent");
-        } catch (TelegramApiException e){
-            sendMessage(chatId,userName,e.getMessage());
-            log.error(e.getMessage());
-        }
-    }
-
-    private void sendHelpText(long chatId, String textToSend){
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(textToSend);
-
-        try {
-            execute(message);
-            log.info("Reply sent");
-        } catch (TelegramApiException e){
-            sendHelpText(chatId,e.getMessage());
-            log.error(e.getMessage());
-        }
+        lastMessage.put(chatId,receivedMessage);
     }
 }

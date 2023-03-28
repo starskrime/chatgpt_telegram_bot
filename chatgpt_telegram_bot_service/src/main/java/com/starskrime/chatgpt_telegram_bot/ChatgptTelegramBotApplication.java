@@ -16,7 +16,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @SpringBootApplication
 @EnableFeignClients
-@Slf4j
 public class ChatgptTelegramBotApplication {
 
     @Autowired
