@@ -1,0 +1,9 @@
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/ChatgptTelegramBotApplication.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/configuration/TelegramBotConfiguration.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/service/impl/TelegramBotServiceImpl.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/entity/UserApiKey.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/service/impl/ChatGptServiceImpl.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/repository/UserApiKeyRepository.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/service/TelegramBotService.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/service/ChatGptService.java
+/home/ubuntu/Desktop/chatgpt_telegram_bot/chatgpt_telegram_bot_service/src/main/java/com/starskrime/chatgpt_telegram_bot/configuration/SQLDialect.java
