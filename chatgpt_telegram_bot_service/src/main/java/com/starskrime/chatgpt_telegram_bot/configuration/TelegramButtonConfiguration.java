@@ -1,5 +1,6 @@
 package com.starskrime.chatgpt_telegram_bot.configuration;
 
+import com.starskrime.chatgpt_telegram_bot.enumeration.BotMode;
 import com.starskrime.chatgpt_telegram_bot.enumeration.CustomBotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -26,7 +27,9 @@ public class TelegramButtonConfiguration {
             CustomBotCommand.MYKEY.value + " - use your own OpenAI API key\n" +
             CustomBotCommand.MODELIST.value + " - choose bot mode\n" +
             CustomBotCommand.HELP.value + " - help menu";
-    public static final String MODE_LIST="List of available bot modes: \n/grammar \n/ai";
+    public static final String MODE_LIST="List of available bot modes: \n "+
+            "/"+BotMode.GRAMMAR.value+" \n"+
+            "/"+BotMode.AI.value;
 
     public static InlineKeyboardMarkup inlineMarkup() {
         START_BUTTON.setCallbackData(CustomBotCommand.START.value);
