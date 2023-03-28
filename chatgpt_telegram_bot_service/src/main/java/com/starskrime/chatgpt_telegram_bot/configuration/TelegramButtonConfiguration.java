@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TelegramButtonConfiguration {
     private static final InlineKeyboardButton START_BUTTON = new InlineKeyboardButton("Start");
-    private static final InlineKeyboardButton MODE_BUTTON = new InlineKeyboardButton("Set Mode");
+    private static final InlineKeyboardButton MODE_BUTTON = new InlineKeyboardButton("Bot Mode");
     private static final InlineKeyboardButton SET_KEY_BUTTON = new InlineKeyboardButton("Set Api Key");
     private static final InlineKeyboardButton HELP_BUTTON = new InlineKeyboardButton("Help");
 
