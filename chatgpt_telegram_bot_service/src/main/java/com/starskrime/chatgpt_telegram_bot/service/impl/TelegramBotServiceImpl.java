@@ -164,12 +164,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         if (receivedMessage.startsWith("/")) {
             availableFeatures(receivedMessage, chatId, userName);
 
-        }else if((receivedMessage.equals(BotMode.AI.value) || receivedMessage.equals(BotMode.GRAMMAR.value)) && lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
-            userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
-            userConfigService.saveUserConfig(userConfig.get());
-            sendMessage(chatId,userName,"Mode changed to: " + receivedMessage);
-
-        } else if(receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(CustomBotCommand.MYKEY.value)) {
+        }else if(receivedMessage.startsWith("sk-") && lastMessage.get(chatId).equals(CustomBotCommand.MYKEY.value)) {
             UserConfig currentUser;
             if (userConfig.isPresent()){
                 currentUser = userConfig.get();
@@ -188,7 +183,12 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
         }else {
             ChatRequest request = new ChatRequest();
-            request.setQuestion(update.getMessage().getText());
+
+            if (userConfig.get().getBotMode().value.equals("grammar")){
+                receivedMessage = "You are teacher of English language.Check grammar of my sentence: " + receivedMessage;
+            }
+
+            request.setQuestion(receivedMessage);
             ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
             sendMessage(chatId,userName,response.getChoices().get(0).getMessage().getContent());
         }
