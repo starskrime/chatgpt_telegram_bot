@@ -93,10 +93,10 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 sendHelpText(chatId, MODE_LIST);
                 break;
             case "/grammar":
-                setBotMode(chatId,"grammar");
+                setBotMode(chatId,BotMode.GRAMMAR);
                 break;
             case "/ai":
-                setBotMode(chatId,"ai");
+                setBotMode(chatId,BotMode.AI);
                 break;
             case "/help":
                 sendHelpText(chatId, HELP_TEXT);
@@ -127,9 +127,9 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
     }
 
     @Override
-    public boolean setBotMode(Long chatId, String mode) {
+    public boolean setBotMode(Long chatId, BotMode botMode) {
         if(lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
-            userConfig.get().setBotMode(BotMode.valueOf(receivedMessage));
+            userConfig.get().setBotMode(botMode);
             userConfigService.saveUserConfig(userConfig.get());
             sendMessage(chatId,userName,"Mode changed to: " + receivedMessage);
             return true;
