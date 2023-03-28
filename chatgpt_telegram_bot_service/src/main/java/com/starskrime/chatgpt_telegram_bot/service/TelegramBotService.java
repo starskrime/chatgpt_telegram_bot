@@ -7,5 +7,5 @@ public interface TelegramBotService {
     void hasMessage(Update update);
     void hasCallBack(Update update);
     void sendMessage(long chatId, String userName, String customMessage);
-    boolean setBotMode(Long chatId, BotMode botMode);
+    void setBotMode(Long chatId, BotMode botMode);
 }
