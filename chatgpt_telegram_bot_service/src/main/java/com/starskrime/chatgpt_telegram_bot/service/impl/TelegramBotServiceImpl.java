@@ -165,9 +165,9 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
                 currentUser.setBotMode(BotMode.AI);
             }
             userConfigService.saveUserConfig(currentUser);
-            sendMessage(Long.parseLong(chatId),"","Api key is successfully saved.");
+            sendMessage(Long.parseLong(chatId),userName,"Api key is successfully saved.");
         }else if (userConfig.isEmpty()){
-            sendMessage(Long.parseLong(chatId),"","ChatGPT api key is not specified. Please use the link to get api key : https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key and send /mykey command to specify api key next.");
+            sendMessage(Long.parseLong(chatId),userName,"ChatGPT api key is not specified. Please use the link to get api key : https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key and send /mykey command to specify api key next.");
         }else if(update.getMessage() !=null &&  update.hasMessage()) {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
