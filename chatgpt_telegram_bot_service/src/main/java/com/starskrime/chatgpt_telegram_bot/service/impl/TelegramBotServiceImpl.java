@@ -119,7 +119,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }
         try {
             execute(message);
-            log.info("Reply sent");
         } catch (TelegramApiException e){
             sendMessage(chatId,userName,e.getMessage());
             log.error(e.getMessage());
@@ -142,7 +141,6 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
 
         try {
             execute(message);
-            log.info("Reply sent");
         } catch (TelegramApiException e){
             sendHelpText(chatId,e.getMessage());
             log.error(e.getMessage());
