@@ -14,10 +14,10 @@ public class TelegramButtonConfiguration {
     private static final InlineKeyboardButton HELP_BUTTON = new InlineKeyboardButton("Help");
 
     public static final List<BotCommand> LIST_OF_COMMANDS = List.of(
-            new BotCommand("/start", "Lets go"),
-            new BotCommand("/mykey", "I want to use my own relation with ChatGPT"),
-            new BotCommand("/modelist", "(NOT IMPLEMENTED YET) Lets see what we have ?"),
-            new BotCommand("/help", "Help me")
+            new BotCommand(CustomBotCommand.START.value, "Lets go"),
+            new BotCommand(CustomBotCommand.MYKEY.value, "I want to use my own relation with ChatGPT"),
+            new BotCommand(CustomBotCommand.MODELIST.value, "(NOT IMPLEMENTED YET) Lets see what we have ?"),
+            new BotCommand(CustomBotCommand.HELP.value, "Help me")
     );
 
     public static final String HELP_TEXT = "This bot will connect you with ChatGpt latest api.\n" +
