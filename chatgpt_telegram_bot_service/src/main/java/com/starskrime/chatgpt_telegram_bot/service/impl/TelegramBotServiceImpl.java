@@ -165,15 +165,16 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             }
             userConfigService.saveUserConfig(currentUser);
             sendMessage(Long.parseLong(chatId),userName,"Api key is successfully saved.");
+
         }else if (userConfig.isEmpty()){
             sendMessage(Long.parseLong(chatId),userName,"ChatGPT api key is not specified. Please use the link to get api key : https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key and send /mykey command to specify api key next.");
+
         }else {
             ChatRequest request = new ChatRequest();
             request.setQuestion(update.getMessage().getText());
             ChatGPTResponse response = chatGptService.chat(request,userConfig.get().getChatGptApiKey());
             sendMessage(Long.parseLong(chatId),userId,response.getChoices().get(0).getMessage().getContent());
         }
-
 
         lastMessage.put(chatId,receivedMessage);
     }
@@ -187,7 +188,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         userConfig = userConfigService.getUserConfig(userId);
 
         availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
-
+        System.out.println("callback : " + receivedMessage);
         lastMessage.put(chatId,receivedMessage);
     }
 }
