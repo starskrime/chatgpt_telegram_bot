@@ -142,10 +142,9 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         userName=update.getMessage().getFrom().getFirstName();
         receivedMessage  = update.getMessage().getText();
         userConfig = userConfigService.getUserConfig(userId);
-        String message = update.getMessage().getText();
 
 
-        if (message.startsWith("/")) {
+        if (receivedMessage.startsWith("/")) {
             availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
 
         }else if((receivedMessage.equals(BotMode.AI.value) || receivedMessage.equals(BotMode.GRAMMAR.value)) && lastMessage.get(chatId).equals(CustomBotCommand.MODELIST.value)) {
@@ -184,11 +183,9 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         chatId = String.valueOf(update.getCallbackQuery().getFrom().getId());
         userId = String.valueOf(update.getCallbackQuery().getFrom().getId());
         userName = String.valueOf(update.getCallbackQuery().getFrom().getUserName());
-        receivedMessage="";
+        receivedMessage=update.getCallbackQuery().getData();
         userConfig = userConfigService.getUserConfig(userId);
 
-
-        receivedMessage = update.getCallbackQuery().getData();
         availableFeatures(receivedMessage, Long.parseLong(chatId), userName);
 
         lastMessage.put(chatId,receivedMessage);
