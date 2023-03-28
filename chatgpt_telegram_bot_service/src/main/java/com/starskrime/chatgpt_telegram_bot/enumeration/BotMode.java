@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum BotMode {
-    GRAMMAR("grammar"),
+    GRAMMAR("grammarchecker"),
     AI("ai");
     public final String value;
 }

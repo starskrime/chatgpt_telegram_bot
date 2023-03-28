@@ -92,7 +92,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             case "/modelist":
                 sendHelpText(chatId, MODE_LIST);
                 break;
-            case "/grammar":
+            case "/grammarchecker":
                 setBotMode(chatId,BotMode.GRAMMAR);
                 break;
             case "/ai":
@@ -184,7 +184,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         }else {
             ChatRequest request = new ChatRequest();
 
-            if (userConfig.get().getBotMode().value.equals("grammar")){
+            if (userConfig.get().getBotMode().value.equals("grammarchecker")){
                 receivedMessage = telegramBotConfiguration.getGrammarTeacher() + receivedMessage;
             }
 
