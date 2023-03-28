@@ -9,6 +9,6 @@ public enum CustomBotCommand {
     MODELIST("/modelist"),
     HELP("/help");
 
-    public String value;
+    public final String value;
 
 }

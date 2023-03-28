@@ -6,5 +6,5 @@ import lombok.AllArgsConstructor;
 public enum BotMode {
     GRAMMAR("/grammar"),
     AI("/ai");
-    public String value;
+    public final String value;
 }
